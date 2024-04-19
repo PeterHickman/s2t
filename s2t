@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+def seconds_to_hms(t)
+  s = t % 60
+  t -= s
+  t /= 60
+
+  m = t % 60
+  t -= m
+  t /= 60
+
+  h = t % 24
+  t -= h
+  t /= 24
+
+  d = t
+
+  x = []
+  x << "#{d}d" if d > 0
+  x << "#{h}h" if h >0 || x.any?
+  x << "#{m}m" if m >0 || x.any?
+  x << "#{s}s"
+
+  x.join(' ')
+end
+
+puts seconds_to_hms(ARGV[0].to_i)
