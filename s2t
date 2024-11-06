@@ -1,27 +1,18 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-def seconds_to_hms(t)
-  s = t % 60
-  t -= s
-  t /= 60
+def human_duration(duration_in_seconds)
+  n = duration_in_seconds.round
+  parts = []
+  [60, 60, 24].each{|d| n, r = n.divmod d; parts << r; break if n.zero?}
+  parts << n unless n.zero?
+  pairs = parts.reverse.zip(%w(d h m s)[-parts.size..-1])
 
-  m = t % 60
-  t -= m
-  t /= 60
+  r = []
+  r << pairs.shift
+  r << pairs.shift if pairs[0] && pairs[0][0] > 0
 
-  h = t % 24
-  t -= h
-  t /= 24
-
-  d = t
-
-  x = []
-  x << "#{d}d" if d > 0
-  x << "#{h}h" if h >0 || x.any?
-  x << "#{m}m" if m >0 || x.any?
-  x << "#{s}s"
-
-  x.join(' ')
+  r.flatten.join
 end
 
-puts seconds_to_hms(ARGV[0].to_i)
+puts human_duration(ARGV[0].to_i)
