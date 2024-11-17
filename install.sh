@@ -1,12 +1,13 @@
 #!/bin/sh
 
 BINARY='/usr/local/bin'
+APP=s2t
 
-echo "Building s2t"
-go build s2t.go
+echo "Building $APP"
+go build -ldflags="-s -w" $APP.go
 
-echo "Installing s2t to $BINARY"
-install -v s2t $BINARY
+echo "Installing $APP to $BINARY"
+install $APP $BINARY
 
 echo "Removing the build"
-rm s2t
+rm $APP
