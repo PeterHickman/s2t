@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 var full bool
@@ -63,7 +64,12 @@ func init() {
 }
 
 func main() {
-	seconds, err := strconv.ParseInt(flag.Arg(0), 10, 64)
+	text := flag.Arg(0)
+	if strings.HasSuffix(text, "s") || strings.HasSuffix(text, "S") {
+		text = text[:len(text)-1]
+	}
+
+	seconds, err := strconv.ParseInt(text, 10, 64)
 
 	if err != nil {
 		fmt.Printf("Unknown number [%s]\n", flag.Arg(0))
